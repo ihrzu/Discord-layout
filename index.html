@@ -159,7 +159,6 @@
             box-shadow: 0 15px 35px rgba(147, 51, 234, 0.25), 0 0 20px rgba(168, 85, 247, 0.1);
         }
 
-        /* Top 10 Card Special Glow */
         .top-glow-card {
             border: 2px solid rgba(236, 72, 153, 0.3);
             box-shadow: 0 10px 25px rgba(236, 72, 153, 0.1);
@@ -167,11 +166,6 @@
         .top-glow-card:hover {
             border-color: #ec4899;
             box-shadow: 0 15px 35px rgba(236, 72, 153, 0.3);
-        }
-
-        .layout-card h3 {
-            color: #ffffff;
-            font-size: 1.3rem;
         }
 
         .layout-preview {
@@ -232,15 +226,12 @@
             cursor: pointer;
             font-weight: bold;
             font-size: 0.9rem;
-            margin-left: auto; /* Push to the right side of card */
+            margin-left: auto;
             transition: transform 0.2s;
         }
-        .delete-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
-        }
+        .delete-btn:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
 
-        /* Inputs */
+        /* Form Controls */
         input[type="text"], input[type="email"], input[type="password"], textarea {
             width: 100%;
             max-width: 550px;
@@ -252,10 +243,7 @@
             margin-top: 8px;
             font-family: inherit;
         }
-        label {
-            font-weight: 600;
-            color: #c084fc;
-        }
+        label { font-weight: 600; color: #c084fc; }
 
         @media (max-width: 768px) {
             body { flex-direction: column; }
@@ -271,29 +259,37 @@
     <div class="liquid-sidebar">
         <div class="sidebar-brand">Layout Hub</div>
         <div class="navigation-menu">
-            <button class="tab-btn active" onclick="switchTab(event, 'home')">Home</button>
+            <button class="tab-btn active" onclick="switchTab(event, 'main-posts')">Main Posts</button>
+            <button class="tab-btn" onclick="switchTab(event, 'community-posts')">Community Feed</button>
             <button class="tab-btn" onclick="switchTab(event, 'announcements-tab')">Announcements</button>
-            <button class="tab-btn" onclick="switchTab(event, 'ai')">AI Tools</button>
             <button class="tab-btn" onclick="switchTab(event, 'submit-tab')">Submit Layout</button>
+            <button class="tab-btn" onclick="switchTab(event, 'donation-tab')">Support Us</button>
             <button class="tab-btn" onclick="switchTab(event, 'login-tab')" id="nav-auth-btn">Login</button>
         </div>
     </div>
 
     <div class="content-body">
         
-        <div id="home" class="tab-content active-content">
-            <h2>Community Hub</h2>
-            <p>Explore, copy, and upvote custom templates.</p>
+        <div id="main-posts" class="tab-content active-content">
+            <h2>Official Core Layouts</h2>
+            <p>Verified structural master blueprints posted by system managers.</p>
             
-            <div class="section-divider">🔥 Top 10 Most Liked</div>
-            <div id="top-layouts-container">
-                <p style="color: #9d8eb5; font-size: 0.9rem; padding: 10px;">Calculating leaderboard rankings...</p>
-            </div>
+            <div class="section-divider">🔥 Top 10 Leaderboard</div>
+            <div id="main-top-container"><p style="color:#9d8eb5; font-size:0.9rem; padding:10px;">Sorting chart positions...</p></div>
 
-            <div class="section-divider">✨ Recent Templates</div>
-            <div id="layouts-container">
-                <p style="color: #9d8eb5; font-size: 0.9rem; padding: 10px;">Syncing latest records...</p>
-            </div>
+            <div class="section-divider">✨ Recent Releases</div>
+            <div id="main-feed-container"><p style="color:#9d8eb5; font-size:0.9rem; padding:10px;">Syncing server architecture records...</p></div>
+        </div>
+
+        <div id="community-posts" class="tab-content">
+            <h2>Community Templates</h2>
+            <p>Explore structural submissions posted across the system cluster.</p>
+            
+            <div class="section-divider">🔥 Top 10 Community Picks</div>
+            <div id="comm-top-container"><p style="color:#9d8eb5; font-size:0.9rem; padding:10px;">Calculating ranking matrix...</p></div>
+
+            <div class="section-divider">✨ Public Submissions</div>
+            <div id="comm-feed-container"><p style="color:#9d8eb5; font-size:0.9rem; padding:10px;">Streaming network feed...</p></div>
         </div>
 
         <div id="announcements-tab" class="tab-content">
@@ -301,24 +297,16 @@
             <p style="margin-bottom: 20px;">Official structural releases and development updates.</p>
             
             <div id="admin-announcement-form-box" style="display: none; background: rgba(168,85,247,0.05); border: 1px dashed #a855f7; padding: 20px; border-radius: 16px; margin-bottom: 30px;">
-                <h4 style="color: #ffffff; margin-bottom: 10px;">🛡️ Creator Admin Dashboard</h4>
+                <h4 style="color: #ffffff; margin-bottom: 10px;">🛡️ Dashboard Broadcast Access</h4>
                 <form onsubmit="handleAnnouncementSubmit(event)">
                     <label>Broadcast Title</label><br>
-                    <input type="text" id="ann-title" placeholder="System Maintenance / Update logs..." required><br><br>
-                    <label>Announcement Body text</label><br>
-                    <textarea rows="4" id="ann-body" placeholder="Write your community message here..." required></textarea><br><br>
-                    <button type="submit" class="copy-btn">Publish Broadcast</button>
+                    <input type="text" id="ann-title" placeholder="System logs..." required><br><br>
+                    <label>Announcement Content</label><br>
+                    <textarea rows="4" id="ann-body" placeholder="Write community logs..." required></textarea><br><br>
+                    <button type="submit" class="copy-btn">Publish Announcement</button>
                 </form>
             </div>
-
-            <div id="announcements-feed-container">
-                <p style="color: #9d8eb5; text-align: center;">Opening communication relays...</p>
-            </div>
-        </div>
-
-        <div id="ai" class="tab-content">
-            <h2>AI Assistant</h2>
-            <p>Automate structural workflows or map design formatting styles instantly.</p>
+            <div id="announcements-feed-container"><p style="color: #9d8eb5; text-align: center;">Opening communication links...</p></div>
         </div>
 
         <div id="submit-tab" class="tab-content">
@@ -336,6 +324,22 @@
             </form>
         </div>
 
+        <div id="donation-tab" class="tab-content">
+            <h2>Support the Platform</h2>
+            <p style="margin-bottom: 25px;">Help maintain database server infrastructure, bandwidth nodes, and feature deployments.</p>
+            
+            <div style="background: linear-gradient(135deg, #0f0a1c 0%, #05030a 100%); border: 2px solid rgba(147, 51, 234, 0.2); border-radius: 20px; padding: 35px; text-align: center; max-width: 550px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                <div style="font-size: 3rem; margin-bottom: 15px;">💜</div>
+                <h3 style="color:#ffffff; margin-bottom: 10px; font-size: 1.5rem;">Fund Server Development</h3>
+                <p style="font-size: 0.95rem; margin-bottom: 25px; line-height: 1.6;">If this hub helped you construct your server communities quickly, consider throwing a tip to the developer infrastructure layer.</p>
+                
+                <div style="display: flex; flex-direction: column; gap: 12px; max-width: 300px; margin: 0 auto;">
+                    <a href="#" target="_blank" style="text-decoration: none;"><button class="copy-btn" style="width:100%; background: linear-gradient(45deg, #ffdd00, #f7b731); color:#000000;">☕ Buy Me A Coffee</button></a>
+                    <a href="#" target="_blank" style="text-decoration: none;"><button class="copy-btn" style="width:100%; background: linear-gradient(45deg, #0079c1, #00457c);">💳 Support via PayPal</button></a>
+                </div>
+            </div>
+        </div>
+
         <div id="login-tab" class="tab-content">
             <h2 id="auth-title">Account Portal</h2>
             <p style="margin-bottom: 25px; color: #9d8eb5;" id="auth-status-msg">Authenticate credentials to interact with community records.</p>
@@ -351,7 +355,6 @@
                     <button class="copy-btn" style="background: rgba(255,255,255,0.05); box-shadow: none; border: 1px solid rgba(255,255,255,0.1);" onclick="handleRegister()">Register Account</button>
                 </div>
             </div>
-            
             <div id="logout-container" style="display: none;">
                  <button class="copy-btn" style="background: linear-gradient(45deg, #ef4444, #dc2626); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);" onclick="handleLogout()">Disconnect Session</button>
             </div>
@@ -360,8 +363,8 @@
     </div>
 
     <script>
-        // ADD YOUR ADMIN / MOD TRANSLATION ACCOUNT HERE
-        const ADMIN_EMAILS = ["userf3284@gmail.com"]; 
+        // INPUT YOUR MANAGEMENT ACCOUNTS LOWERCASE
+        const ADMIN_EMAILS = ["your-email@example.com", "amarionn0329@gmail.com"]; 
 
         const firebaseConfig = {
           apiKey: "AIzaSyCdKjdJ2f8ET0HUCUAq0bu9zN9Xn9vLViU",
@@ -379,18 +382,17 @@
 
         let currentUser = null;
 
-        // Monitor Login Status
         auth.onAuthStateChanged(user => {
             if (user) {
                 currentUser = user;
+                const cleanDisplayUsername = user.email.split('@')[0];
                 document.getElementById('nav-auth-btn').innerText = 'My Account';
-                document.getElementById('auth-title').innerText = 'Welcome Back!';
-                document.getElementById('auth-status-msg').innerText = `Logged in: ${user.email}`;
-                document.getElementById('submit-status-msg').innerText = 'Your account node is authorized. Ready to broadcast layout.';
+                document.getElementById('auth-title').innerText = `Welcome, ${cleanDisplayUsername}!`;
+                document.getElementById('auth-status-msg').innerText = `Session verified connection node secure.`;
+                document.getElementById('submit-status-msg').innerText = 'Authorized to post layout to public registers.';
                 document.getElementById('auth-form-container').style.display = 'none';
                 document.getElementById('logout-container').style.display = 'block';
 
-                // Evaluate if user is allowed to view admin panels
                 if(ADMIN_EMAILS.includes(user.email.toLowerCase())) {
                     document.getElementById('admin-announcement-form-box').style.display = 'block';
                 }
@@ -404,8 +406,7 @@
                 document.getElementById('logout-container').style.display = 'none';
                 document.getElementById('admin-announcement-form-box').style.display = 'none';
             }
-            // Trigger layout view refresh to update delete button permissions visibility
-            refreshFeeds();
+            refreshDataStreams();
         });
 
         function switchTab(event, tabId) {
@@ -419,160 +420,158 @@
 
         function copyLayout(elementId) {
             const text = document.getElementById(elementId).innerText;
-            navigator.clipboard.writeText(text).then(() => alert("Copied safely!")).catch(() => alert("Error mirroring text"));
+            navigator.clipboard.writeText(text).then(() => alert("Copied safely to clipboard!")).catch(() => alert("Error logging stream context"));
         }
 
         function handleRegister() {
             const email = document.getElementById('auth-email').value;
             const password = document.getElementById('auth-password').value;
-            if(!email || !password) return alert("Credentials cannot be blank.");
-            auth.createUserWithEmailAndPassword(email, password).then(() => alert("Profile created!")).catch(err => alert(err.message));
+            if(!email || !password) return alert("Fill out parameters entirely.");
+            auth.createUserWithEmailAndPassword(email, password).then(() => alert("Account synchronized.")).catch(err => alert(err.message));
         }
 
         function handleLogin() {
             const email = document.getElementById('auth-email').value;
             const password = document.getElementById('auth-password').value;
-            if(!email || !password) return alert("Credentials cannot be blank.");
-            auth.signInWithEmailAndPassword(email, password).then(() => alert("Access granted.")).catch(err => alert(err.message));
+            if(!email || !password) return alert("Fill out parameters entirely.");
+            auth.signInWithEmailAndPassword(email, password).then(() => alert("System access approved.")).catch(err => alert(err.message));
         }
 
-        function handleLogout() { auth.signOut().then(() => alert("Logged out.")); }
+        function handleLogout() { auth.signOut().then(() => alert("Session destroyed.")); }
 
-        // Post Layout Submission
         function handleLayoutSubmit(event) {
             event.preventDefault();
-            if (!currentUser) return alert("Session blocked: Authorization missing.");
+            if (!currentUser) return alert("Action blocked: missing identification profile.");
             
+            const isUploaderAdmin = ADMIN_EMAILS.includes(currentUser.email.toLowerCase());
+
             db.collection("layouts").add({
                 title: document.getElementById('form-title').value,
                 channels: document.getElementById('form-channels').value,
                 creator: currentUser.email,
+                isAdminPost: isUploaderAdmin, // Identity distinction criteria key flag
                 likes: 0, dislikes: 0, likedBy: [], dislikedBy: [],
                 createdAt: new Date()
             }).then(() => {
-                alert("Published online!");
+                alert("Layout successfully updated to data ledger arrays!");
                 document.getElementById('submission-form').reset();
-                switchTab(null, 'home');
-            }).catch(err => alert("Cloud failure: " + err.message));
+                switchTab(null, isUploaderAdmin ? 'main-posts' : 'community-posts');
+            }).catch(err => alert("Cloud operational delay: " + err.message));
         }
 
-        // Post Announcement Submission (Admin Restricted)
         function handleAnnouncementSubmit(event) {
             event.preventDefault();
-            if (!currentUser || !ADMIN_EMAILS.includes(currentUser.email.toLowerCase())) {
-                return alert("Permission Denied.");
-            }
+            if (!currentUser || !ADMIN_EMAILS.includes(currentUser.email.toLowerCase())) return alert("Clearance mismatch.");
 
             db.collection("announcements").add({
                 title: document.getElementById('ann-title').value,
                 body: document.getElementById('ann-body').value,
                 date: new Date()
             }).then(() => {
-                alert("Announcement broadcasted successfully!");
+                alert("Announcement system pipeline executed safely!");
                 document.getElementById('ann-title').value = "";
                 document.getElementById('ann-body').value = "";
-            }).catch(err => alert("Failed to post announcement: " + err.message));
+            }).catch(err => alert("Transmission error: " + err.message));
         }
 
-        // Global Delete Control Node
         function deletePost(collectionName, docId) {
-            if (!currentUser || !ADMIN_EMAILS.includes(currentUser.email.toLowerCase())) {
-                return alert("Action denied: Missing administrative clearance.");
-            }
-            if (confirm("Are you absolute sure you want to permanently delete this item?")) {
+            if (!currentUser || !ADMIN_EMAILS.includes(currentUser.email.toLowerCase())) return alert("Clearance lacking.");
+            if (confirm("Execute script command context to drop document data file permanently?")) {
                 db.collection(collectionName).doc(docId).delete()
-                    .then(() => alert("Item expunged from database layers successfully."))
-                    .catch(err => alert("Error processing drop query: " + err.message));
+                    .then(() => alert("Document dropped cleanly."))
+                    .catch(err => alert("Operation failure: " + err.message));
             }
         }
 
-        // Dynamic Query Feeds Management Block
-        function refreshFeeds() {
-            const isAdmin = currentUser && ADMIN_EMAILS.includes(currentUser.email.toLowerCase());
+        function renderCardHTML(docId, data, suffix, isAdmin) {
+            const maskedUsername = data.creator ? data.creator.split('@')[0] : "Anonymous";
+            const uniquePreviewId = `${suffix}-${docId}`;
+            const glowClass = suffix.includes('top') ? 'top-glow-card' : '';
+            
+            return `
+                <div class="layout-card ${glowClass}">
+                    <h3>${suffix.includes('top') ? '🏆 ' : ''}${data.title}</h3>
+                    <p style="font-size:0.85rem; color:#a855f7; margin-top:4px; font-weight:600;">Posted by username: <span style="color:#ffffff;">${maskedUsername}</span></p>
+                    <div class="layout-preview" id="${uniquePreviewId}">${data.channels}</div>
+                    <div style="display:flex; gap:12px; align-items:center;">
+                        <button class="copy-btn" onclick="copyLayout('${uniquePreviewId}')">Copy Text</button>
+                        <button class="vote-btn" onclick="handleVote('${docId}', 'likes')">👍 ${data.likes || 0}</button>
+                        <button class="vote-btn" onclick="handleVote('${docId}', 'dislikes')">👎 ${data.dislikes || 0}</button>
+                        ${isAdmin ? `<button class="delete-btn" onclick="deletePost('layouts', '${docId}')">Delete</button>` : ''}
+                    </div>
+                </div>`;
+        }
 
-            // 1. TOP 10 LEADERBOARD QUERY
-            db.collection("layouts").orderBy("likes", "desc").limit(10).get().then(snapshot => {
-                const container = document.getElementById('top-layouts-container');
-                container.innerHTML = "";
-                if(snapshot.empty) {
-                    container.innerHTML = `<p style="color: #9d8eb5; font-size:0.9rem; padding:10px;">No layouts upvoted enough to reach charts yet.</p>`;
-                    return;
-                }
+        function refreshDataStreams() {
+            const userIsModAdmin = currentUser && ADMIN_EMAILS.includes(currentUser.email.toLowerCase());
+
+            // 1. LIVE REALTIME HOOK UPON ALL PLATFORM BLUEPRINTS
+            db.collection("layouts").orderBy("createdAt", "desc").onSnapshot(snapshot => {
+                const mainFeed = document.getElementById('main-feed-container');
+                const commFeed = document.getElementById('comm-feed-container');
+                
+                mainFeed.innerHTML = "";
+                commFeed.innerHTML = "";
+
+                let mainCount = 0;
+                let commCount = 0;
+
                 snapshot.forEach(doc => {
                     const data = doc.data();
-                    const docId = doc.id;
-                    const cleanName = data.creator ? data.creator.split('@')[0] : "Anon";
-                    container.innerHTML += `
-                        <div class="layout-card top-glow-card">
-                            <h3>🏆 ${data.title} <span style="color:#ec4899; font-size:0.9rem; margin-left:10px;">(#Top Charts)</span></h3>
-                            <p style="font-size:0.85rem; color:#7c3aed; margin-top:4px;">By: ${cleanName}</p>
-                            <div class="layout-preview" id="top-id-${docId}">${data.channels}</div>
-                            <div style="display:flex; gap:12px; align-items:center;">
-                                <button class="copy-btn" onclick="copyLayout('top-id-${docId}')">Copy Text</button>
-                                <button class="vote-btn" onclick="handleVote('${docId}', 'likes')">👍 ${data.likes || 0}</button>
-                                <button class="vote-btn" onclick="handleVote('${docId}', 'dislikes')">👎 ${data.dislikes || 0}</button>
-                                ${isAdmin ? `<button class="delete-btn" onclick="deletePost('layouts', '${docId}')">Delete</button>` : ''}
-                            </div>
-                        </div>`;
+                    if(data.isAdminPost === true) {
+                        mainFeed.innerHTML += renderCardHTML(doc.id, data, 'main-feed', userIsModAdmin);
+                        mainCount++;
+                    } else {
+                        commFeed.innerHTML += renderCardHTML(doc.id, data, 'comm-feed', userIsModAdmin);
+                        commCount++;
+                    }
                 });
+
+                if(mainCount === 0) mainFeed.innerHTML = `<p style="color:#9d8eb5; font-size:0.9rem; padding:10px;">No official blueprints loaded yet.</p>`;
+                if(commCount === 0) commFeed.innerHTML = `<p style="color:#9d8eb5; font-size:0.9rem; padding:10px;">No community layouts found here yet.</p>`;
             });
 
-            // 2. RECENT CHRONOLOGICAL LIST FEED
-            db.collection("layouts").orderBy("createdAt", "desc").onSnapshot(snapshot => {
-                const container = document.getElementById('layouts-container');
+            // 2. MAIN LEADERBOARD SYNC (LIMIT 10)
+            db.collection("layouts").where("isAdminPost", "==", true).orderBy("likes", "desc").limit(10).onSnapshot(snap => {
+                const container = document.getElementById('main-top-container');
                 container.innerHTML = "";
-                if(snapshot.empty) {
-                    container.innerHTML = `<p style="color: #9d8eb5; font-size:0.9rem; padding:10px;">No public feeds loaded yet.</p>`;
-                    return;
-                }
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    const docId = doc.id;
-                    const cleanName = data.creator ? data.creator.split('@')[0] : "Anon";
-                    container.innerHTML += `
-                        <div class="layout-card">
-                            <h3>${data.title}</h3>
-                            <p style="font-size:0.85rem; color:#7c3aed; margin-top:4px;">By: ${cleanName}</p>
-                            <div class="layout-preview" id="id-${docId}">${data.channels}</div>
-                            <div style="display:flex; gap:12px; align-items:center;">
-                                <button class="copy-btn" onclick="copyLayout('id-${docId}')">Copy Text</button>
-                                <button class="vote-btn" onclick="handleVote('${docId}', 'likes')">👍 ${data.likes || 0}</button>
-                                <button class="vote-btn" onclick="handleVote('${docId}', 'dislikes')">👎 ${data.dislikes || 0}</button>
-                                ${isAdmin ? `<button class="delete-btn" onclick="deletePost('layouts', '${docId}')">Delete</button>` : ''}
-                            </div>
-                        </div>`;
-                });
+                if(snap.empty) { container.innerHTML = `<p style="color:#9d8eb5; font-size:0.9rem; padding:10px;">Leaderboard currently empty.</p>`; return; }
+                snap.forEach(doc => { container.innerHTML += renderCardHTML(doc.id, doc.data(), 'main-top', userIsModAdmin); });
+            });
+
+            // 3. COMMUNITY LEADERBOARD SYNC (LIMIT 10)
+            db.collection("layouts").where("isAdminPost", "!=", true).orderBy("isAdminPost").orderBy("likes", "desc").limit(10).onSnapshot(snap => {
+                const container = document.getElementById('comm-top-container');
+                container.innerHTML = "";
+                if(snap.empty) { container.innerHTML = `<p style="color:#9d8eb5; font-size:0.9rem; padding:10px;">Leaderboard empty.</p>`; return; }
+                snap.forEach(doc => { container.innerHTML += renderCardHTML(doc.id, doc.data(), 'comm-top', userIsModAdmin); });
             });
         }
 
-        // 3. ANNOUNCEMENTS STREAM FEED
+        // ANNOUNCEMENT DATA MONITOR PIPELINE SYSTEM
         db.collection("announcements").orderBy("date", "desc").onSnapshot(snapshot => {
             const container = document.getElementById('announcements-feed-container');
             container.innerHTML = "";
             const isAdmin = currentUser && ADMIN_EMAILS.includes(currentUser.email.toLowerCase());
             
-            if(snapshot.empty) {
-                container.innerHTML = `<p style="color: #9d8eb5; text-align:center; padding: 20px;">No updates broadcasted recently.</p>`;
-                return;
-            }
+            if(snapshot.empty) { container.innerHTML = `<p style="color:#9d8eb5; text-align:center; padding:20px;">No announcement updates located inside cache fields.</p>`; return; }
             snapshot.forEach(doc => {
                 const data = doc.data();
-                const docId = doc.id;
                 container.innerHTML += `
                     <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(168,85,247,0.1); border-radius:16px; padding:20px; margin-top:15px; display:flex; flex-direction:column;">
                         <h3 style="color:#c084fc; font-size:1.2rem;">📢 ${data.title}</h3>
                         <p style="color:#ffffff; margin-top:10px; font-size:0.95rem; white-space:pre-wrap; line-height:1.5;">${data.body}</p>
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:15px; border-top:1px solid rgba(255,255,255,0.05); padding-top:10px;">
-                            <span style="font-size:0.75rem; color:#a79bbd;">System Broadcast Log</span>
-                            ${isAdmin ? `<button class="delete-btn" style="padding:6px 12px; font-size:0.8rem;" onclick="deletePost('announcements', '${docId}')">Remove Broadcast</button>` : ''}
+                            <span style="font-size:0.75rem; color:#a79bbd;">Official Broadcast Sync Link</span>
+                            ${isAdmin ? `<button class="delete-btn" style="padding:6px 12px; font-size:0.8rem;" onclick="deletePost('announcements', '${doc.id}')">Remove Broadcast</button>` : ''}
                         </div>
                     </div>`;
             });
         });
 
-        // Atomic Transaction Voting Processor
+        // TRANSACTIONAL MANAGEMENT SYSTEM FOR VOTES
         function handleVote(docId, type) {
-            if (!currentUser) return alert("Profile account auth tracking required to vote.");
+            if (!currentUser) return alert("You must sign in to upvote layouts.");
             const docRef = db.collection("layouts").doc(docId);
             db.runTransaction(transaction => {
                 return transaction.get(docRef).then(doc => {
@@ -586,14 +585,14 @@
 
                     if (type === 'likes') {
                         if (likedBy.includes(userId)) { likedBy = likedBy.filter(id => id !== userId); likes--; } 
-                        else { likedBy.push(userId); likes++; dislikedBy = dislikedBy.filter(id => id !== userId); dislikes = Math.max(0, data.dislikes - 1); }
+                        else { likedBy.push(userId); likes++; dislikedBy = dislikedBy.filter(id => id !== userId); dislikes = Math.max(0, dislikes - 1); }
                     } else if (type === 'dislikes') {
                         if (dislikedBy.includes(userId)) { dislikedBy = dislikedBy.filter(id => id !== userId); dislikes--; } 
-                        else { dislikedBy.push(userId); dislikes++; likedBy = likedBy.filter(id => id !== userId); likes = Math.max(0, data.likes - 1); }
+                        else { dislikedBy.push(userId); dislikes++; likedBy = likedBy.filter(id => id !== userId); likes = Math.max(0, likes - 1); }
                     }
                     transaction.update(docRef, { likes: likes, dislikes: dislikes, likedBy: likedBy, dislikedBy: dislikedBy });
                 });
-            }).then(() => refreshFeeds()).catch(err => console.error(err));
+            }).then(() => refreshDataStreams()).catch(err => console.error(err));
         }
     </script>
 </body>
