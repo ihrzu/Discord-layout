@@ -10,268 +10,325 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <style>
-        /* Base Setup - Discord Dark Mode Aesthetic */
+        /* Modern Liquid Purple & Black Theme Setup */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #313338; 
-            color: #dbdee1;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #09070f 0%, #120c1f 50%, #030206 100%);
+            color: #e2dbf0;
             display: flex;
-            flex-direction: column;
             height: 100vh;
             overflow: hidden;
         }
 
-        /* TOP BAR NAVIGATION */
-        .top-navbar {
-            min-height: 48px;
-            background-color: #2b2d31; 
+        /* LIQUID LEFT SIDEBAR */
+        .liquid-sidebar {
+            width: 260px;
+            background: rgba(15, 10, 25, 0.7);
+            backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(138, 43, 226, 0.2);
+            padding: 30px 20px;
             display: flex;
-            align-items: center;
-            padding: 0 16px;
-            border-bottom: 1px solid #1f2023;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-            gap: 8px;
-            flex-wrap: wrap; 
+            flex-direction: column;
+            gap: 25px;
+            height: 100%;
+            z-index: 10;
         }
 
-        .navbar-brand {
-            color: #f2f3f5;
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-right: 12px;
-            border-right: 1px solid #3f4147;
-            padding-right: 16px;
+        .sidebar-brand {
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 1.4rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
         }
 
-        /* Horizontal Tabs */
+        .navigation-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Liquid Sidebar Menu Buttons */
         .tab-btn {
-            background: none;
-            border: none;
-            color: #949ba4;
-            padding: 6px 12px;
-            font-size: 1rem;
-            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(168, 85, 247, 0.1);
+            color: #b3a7c9;
+            padding: 14px 20px;
+            font-size: 0.95rem;
+            /* Liquid/fluid asymmetric borders */
+            border-radius: 16px 30px 20px 35px;
             cursor: pointer;
-            font-weight: 500;
-            transition: background-color 0.2s, color 0.2s;
-            touch-action: manipulation; 
+            font-weight: 600;
+            text-align: left;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
 
-        .tab-btn::before {
-            content: "# ";
-            color: #80848e;
-            margin-right: 2px;
-        }
-
+        /* Hover Color Effect for Sidebar Items */
         .tab-btn:hover {
-            background-color: #35373c;
-            color: #dbdee1;
+            color: #ffffff;
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.3), rgba(0, 0, 0, 0.6));
+            border-color: rgba(168, 85, 247, 0.6);
+            box-shadow: 0 4px 15px rgba(147, 51, 234, 0.2);
+            /* Smoothly shifts shape on hover like fluid */
+            border-radius: 30px 15px 30px 15px;
+            transform: translateX(5px);
         }
 
         .tab-btn.active {
-            background-color: #404249;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
             color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 8px 20px rgba(168, 85, 247, 0.4);
+            border-radius: 20px 20px 20px 20px;
         }
 
-        /* MAIN CONTENT AREA */
+        /* MAIN CONTENT CONTAINER */
         .content-body {
-            padding: 30px;
+            padding: 40px;
             flex-grow: 1;
             overflow-y: auto;
+            background: transparent;
         }
 
-        /* Tab Switch Logic Display */
         .tab-content {
             display: none;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         .tab-content.active-content {
             display: block;
-            animation: fadeIn 0.15s ease-in-out;
+            animation: fluidFade 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        @keyframes fluidFade {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         h2 {
             color: #ffffff;
-            margin-bottom: 4px;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
         p {
-            line-height: 1.6;
-            color: #dbdee1;
+            color: #9d8eb5;
+            font-size: 1rem;
         }
 
-        /* LAYOUT CARDS */
+        /* MODERN GRADIENT LAYOUT CARDS */
         .layout-card {
-            background-color: #2b2d31; 
-            border: 1px solid #1f2023;
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 20px;
+            background: linear-gradient(135deg, #140f24 0%, #07040d 100%);
+            border: 2px solid rgba(147, 51, 234, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
         }
 
+        /* Hover Effect for Template Cards */
+        .layout-card:hover {
+            border-color: rgba(168, 85, 247, 0.8);
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, #1c1433 0%, #0c0717 100%);
+            box-shadow: 0 15px 35px rgba(147, 51, 234, 0.25), 0 0 20px rgba(168, 85, 247, 0.1);
+        }
+
+        .layout-card h3 {
+            color: #ffffff;
+            font-size: 1.3rem;
+            margin-bottom: 4px;
+        }
+
+        /* Code/Channels window */
         .layout-preview {
-            background-color: #1e1f22; 
-            padding: 12px;
-            border-radius: 4px;
-            font-family: monospace;
+            background-color: #090612; 
+            padding: 16px;
+            border-radius: 12px;
+            font-family: 'Consolas', monospace;
             white-space: pre-wrap; 
-            color: #23a55a; 
-            margin: 15px 0;
-            border-left: 4px solid #5865f2; 
+            color: #a78bfa; 
+            margin: 20px 0;
+            border-left: 4px solid #c084fc;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);
         }
 
+        /* BUTTONS STYLING */
         .copy-btn {
-            background-color: #5865f2; 
+            background: linear-gradient(45deg, #7c3aed, #4f46e5);
             color: #ffffff;
             border: none;
-            padding: 10px 16px;
+            padding: 12px 20px;
             font-size: 0.95rem;
-            font-weight: bold;
-            border-radius: 4px;
+            font-weight: 700;
+            border-radius: 12px;
             cursor: pointer;
-            transition: background-color 0.2s;
-            margin-right: 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
         }
 
         .copy-btn:hover {
-            background-color: #4752c4;
+            background: linear-gradient(45deg, #9333ea, #6366f1);
+            transform: scale(1.02);
+            box-shadow: 0 6px 16px rgba(124, 58, 237, 0.5);
         }
 
-        /* Voting System Buttons */
         .vote-btn {
-            background-color: #383a40;
-            border: none;
-            color: white;
-            padding: 10px 14px;
-            border-radius: 4px;
+            background-color: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #b3a7c9;
+            padding: 11px 16px;
+            border-radius: 12px;
             cursor: pointer;
             font-weight: bold;
-            transition: background-color 0.2s;
-        }
-        .vote-btn:hover {
-            background-color: #4e5058;
+            transition: all 0.2s ease;
         }
 
-        /* Forms Styling */
+        .vote-btn:hover {
+            background-color: rgba(168, 85, 247, 0.15);
+            border-color: rgba(168, 85, 247, 0.4);
+            color: #ffffff;
+        }
+
+        /* Input Controls Forms */
         input[type="text"], input[type="email"], input[type="password"], textarea {
             width: 100%;
-            max-width: 500px;
-            background-color: #1e1f22;
-            border: 1px solid #1f2023;
-            padding: 10px;
-            border-radius: 4px;
+            max-width: 550px;
+            background-color: #090612;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            padding: 12px 16px;
+            border-radius: 12px;
             color: white;
-            margin-top: 6px;
+            margin-top: 8px;
             font-family: inherit;
+            transition: border-color 0.3s;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #c084fc;
+            box-shadow: 0 0 10px rgba(192, 132, 252, 0.2);
         }
         label {
-            font-weight: bold;
-            color: #f2f3f5;
+            font-weight: 600;
+            color: #c084fc;
+            font-size: 0.95rem;
         }
 
-        /* MOBILE SIZES */
-        @media (max-width: 600px) {
-            .top-navbar {
-                padding: 8px;
-                justify-content: center; 
-                height: auto; 
+        /* MOBILE RESPONSIVE ADAPTATION */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
             }
-
-            .navbar-brand {
-                border-right: none; 
-                padding-right: 0;
-                margin-right: 0;
-                width: 100%; 
-                text-align: center;
-                margin-bottom: 6px;
+            .liquid-sidebar {
+                width: 100%;
+                height: auto;
+                padding: 15px;
+                border-right: none;
+                border-bottom: 1px solid rgba(138, 43, 226, 0.2);
+                gap: 15px;
             }
-
+            .navigation-menu {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+            }
             .tab-btn {
-                font-size: 0.95rem; 
-                padding: 8px 10px;  
+                padding: 8px 14px;
+                font-size: 0.85rem;
             }
-
             .content-body {
-                padding: 16px; 
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="top-navbar">
-        <div class="navbar-brand">Layout Hub</div>
+    <div class="liquid-sidebar">
+        <div class="sidebar-brand">Layout Hub</div>
         
-        <button class="tab-btn active" onclick="switchTab(event, 'home')">home</button>
-        <button class="tab-btn" onclick="switchTab(event, 'ai')">AI</button>
-        <button class="tab-btn" onclick="switchTab(event, 'submit-tab')">submit-layout</button>
-        <button class="tab-btn" onclick="switchTab(event, 'login-tab')" id="nav-auth-btn">login</button>
+        <div class="navigation-menu">
+            <button class="tab-btn active" onclick="switchTab(event, 'home')">Home</button>
+            <button class="tab-btn" onclick="switchTab(event, 'ai')">AI Tools</button>
+            <button class="tab-btn" onclick="switchTab(event, 'submit-tab')">Submit Layout</button>
+            <button class="tab-btn" onclick="switchTab(event, 'login-tab')" id="nav-auth-btn">Login</button>
+        </div>
     </div>
 
     <div class="content-body">
         
         <div id="home" class="tab-content active-content">
             <h2>Community Layouts</h2>
-            <p>Find, copy, and vote on community server layouts.</p>
+            <p>Explore, copy, and upvote custom templates curated by creators.</p>
             
             <div id="layouts-container">
-                <p style="color: #949ba4; margin-top: 20px;">Loading community templates...</p>
+                <p style="color: #9d8eb5; margin-top: 30px; text-align: center;">Syncing with cloud database templates...</p>
             </div>
         </div>
 
         <div id="ai" class="tab-content">
-            <h2>AI Layout Generator & Tools</h2>
-            <p>Use custom AI prompts, utilities, or scripts to instantly generate optimized channel templates for your server.</p>
+            <h2>AI Assistant</h2>
+            <p>Automate structural workflows or map design formatting styles instantly.</p>
         </div>
 
         <div id="submit-tab" class="tab-content">
-            <h2>Submit Your Server Layout</h2>
-            <p style="margin-bottom: 20px; color: #949ba4;" id="submit-status-msg">Share your custom design with the world. You must be logged in to submit!</p>
+            <h2>Post Content Layout</h2>
+            <p style="margin-bottom: 25px; color: #9d8eb5;" id="submit-status-msg">Sign into your portal app node to push active submissions.</p>
             
             <form id="submission-form" onsubmit="handleLayoutSubmit(event)">
-                <label>Layout Title:</label><br>
-                <input type="text" id="form-title" placeholder="e.g., Chill Aesthetic Hangout" required><br><br>
+                <label>Layout Title</label><br>
+                <input type="text" id="form-title" placeholder="e.g., Synthwave Retro Core Arcade" required><br><br>
                 
-                <label>Channels List:</label><br>
-                <textarea rows="6" id="form-channels" placeholder="# general&#10;# rules&#10;# voice" required></textarea><br><br>
+                <label>Channels Matrix Representation</label><br>
+                <textarea rows="7" id="form-channels" placeholder="💎 │ information&#10;📢 │ announcements&#10;💬 │ general-chat" required></textarea><br><br>
                 
-                <button type="submit" class="copy-btn" id="submit-post-btn">Post Layout</button>
+                <button type="submit" class="copy-btn" id="submit-post-btn">Publish Layout</button>
             </form>
         </div>
 
         <div id="login-tab" class="tab-content">
             <h2 id="auth-title">Account Portal</h2>
-            <p style="margin-bottom: 20px; color: #949ba4;" id="auth-status-msg">Create an account or login to post layouts and rate templates.</p>
+            <p style="margin-bottom: 25px; color: #9d8eb5;" id="auth-status-msg">Authenticate credentials to interact with community records.</p>
             
-            <div id="auth-form-container" style="background-color: #2b2d31; border: 1px solid #1f2023; padding: 20px; border-radius: 8px; max-width: 540px;">
+            <div id="auth-form-container" style="background: linear-gradient(135deg, #140f24 0%, #07040d 100%); border: 1px solid rgba(168, 85, 247, 0.2); padding: 30px; border-radius: 20px; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                 <label>Email Address</label><br>
                 <input type="email" id="auth-email" placeholder="name@example.com"><br><br>
-                <label>Password</label><br>
+                <label>Account Password</label><br>
                 <input type="password" id="auth-password" placeholder="••••••••"><br><br>
                 
-                <button class="copy-btn" onclick="handleLogin()">Sign In</button>
-                <button class="copy-btn" style="background-color: #4f545c;" onclick="handleRegister()">Register Account</button>
+                <div style="margin-top: 10px; display: flex; gap: 10px;">
+                    <button class="copy-btn" onclick="handleLogin()">Sign In</button>
+                    <button class="copy-btn" style="background: rgba(255,255,255,0.05); box-shadow: none; border: 1px solid rgba(255,255,255,0.1);" onclick="handleRegister()">Register Account</button>
+                </div>
             </div>
             
             <div id="logout-container" style="display: none;">
-                 <button class="copy-btn" style="background-color: #da373c;" onclick="handleLogout()">Log Out</button>
+                 <button class="copy-btn" style="background: linear-gradient(45deg, #ef4444, #dc2626); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);" onclick="handleLogout()">Disconnect Session</button>
             </div>
         </div>
 
     </div>
 
     <script>
-        // Your exact connection configuration keys
         const firebaseConfig = {
           apiKey: "AIzaSyCdKjdJ2f8ET0HUCUAq0bu9zN9Xn9vLViU",
           authDomain: "layout-c24d3.firebaseapp.com",
@@ -282,35 +339,35 @@
           measurementId: "G-CZKDQ1DTBE"
         };
 
-        // Initialize Firebase Apps
+        // Initialize Firebase Engines
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
 
         let currentUser = null;
 
-        // Track user login status changes
+        // Monitor Login Status App-Wide
         auth.onAuthStateChanged(user => {
             if (user) {
                 currentUser = user;
-                document.getElementById('nav-auth-btn').innerText = 'my account';
+                document.getElementById('nav-auth-btn').innerText = 'My Account';
                 document.getElementById('auth-title').innerText = 'Welcome Back!';
-                document.getElementById('auth-status-msg').innerText = `Logged in as: ${user.email}`;
-                document.getElementById('submit-status-msg').innerText = 'Fill out the form below to post your custom layout.';
+                document.getElementById('auth-status-msg').innerText = `Logged in network channel: ${user.email}`;
+                document.getElementById('submit-status-msg').innerText = 'Your account node is authorized. Ready to broadcast layout.';
                 document.getElementById('auth-form-container').style.display = 'none';
                 document.getElementById('logout-container').style.display = 'block';
             } else {
                 currentUser = null;
-                document.getElementById('nav-auth-btn').innerText = 'login';
+                document.getElementById('nav-auth-btn').innerText = 'Login';
                 document.getElementById('auth-title').innerText = 'Account Portal';
-                document.getElementById('auth-status-msg').innerText = 'Create an account or login to post layouts and rate templates.';
-                document.getElementById('submit-status-msg').innerText = 'Share your custom design with the world. You must be logged in to submit!';
+                document.getElementById('auth-status-msg').innerText = 'Authenticate credentials to interact with community records.';
+                document.getElementById('submit-status-msg').innerText = 'Sign into your portal app node to push active submissions.';
                 document.getElementById('auth-form-container').style.display = 'block';
                 document.getElementById('logout-container').style.display = 'none';
             }
         });
 
-        // Tab Clicking Mechanism Logic
+        // Tab Clicking Machine Mechanism
         function switchTab(event, tabId) {
             const contents = document.querySelectorAll('.tab-content');
             contents.forEach(content => content.classList.remove('active-content'));
@@ -324,55 +381,54 @@
             }
         }
 
-        // Copy Text Function Utility
+        // Copy Text Tool Clipboard Utility
         function copyLayout(elementId) {
             const text = document.getElementById(elementId).innerText;
             navigator.clipboard.writeText(text).then(() => {
-                alert("Layout copied to clipboard!");
+                alert("Copied layout code stream safely!");
             }).catch(err => {
-                alert("Error copying: ", err);
+                alert("Error mirroring text sequence: ", err);
             });
         }
 
-        // AUTH SYSTEM ACTIONS: Registration
+        // Authentication Methods: Sign up
         function handleRegister() {
             const email = document.getElementById('auth-email').value;
             const password = document.getElementById('auth-password').value;
-            if(!email || !password) return alert("Please fill in email and password fields.");
+            if(!email || !password) return alert("Credentials cannot initialize blank parameters.");
 
             auth.createUserWithEmailAndPassword(email, password)
-                .then(() => alert("Account registered successfully! Welcome!"))
+                .then(() => alert("Access profile created successfully!"))
                 .catch(err => alert(err.message));
         }
 
-        // AUTH SYSTEM ACTIONS: Logging In
+        // Authentication Methods: Sign in
         function handleLogin() {
             const email = document.getElementById('auth-email').value;
             const password = document.getElementById('auth-password').value;
-            if(!email || !password) return alert("Please fill in email and password fields.");
+            if(!email || !password) return alert("Credentials cannot initialize blank parameters.");
 
             auth.signInWithEmailAndPassword(email, password)
-                .then(() => alert("Logged in successfully!"))
+                .then(() => alert("Verified. Access granted."))
                 .catch(err => alert(err.message));
         }
 
-        // AUTH SYSTEM ACTIONS: Logging Out
+        // Authentication Methods: Clear Session
         function handleLogout() {
-            auth.signOut().then(() => alert("Logged out safely."));
+            auth.signOut().then(() => alert("Session cleared safely."));
         }
 
-        // DATABASE CONTROLLER: Handle Submitting a New Layout
+        // Data Upload Flow Pipeline
         function handleLayoutSubmit(event) {
             event.preventDefault();
             if (!currentUser) {
-                alert("Access Denied: You must be logged into an account to submit templates.");
+                alert("Session blocked: Authorization footprint missing.");
                 return;
             }
 
             const title = document.getElementById('form-title').value;
             const channels = document.getElementById('form-channels').value;
 
-            // Save layout information into your Firebase Firestore DB
             db.collection("layouts").add({
                 title: title,
                 channels: channels,
@@ -384,43 +440,42 @@
                 createdAt: new Date()
             })
             .then(() => {
-                alert("Layout successfully posted online!");
+                alert("Layout matrix uploaded safely to production cloud!");
                 document.getElementById('submission-form').reset();
-                switchTab(null, 'home'); // Send user back to homepage automatically
+                switchTab(null, 'home');
                 
-                // Highlight the Home tab button correctly
                 document.querySelectorAll('.tab-btn').forEach(btn => {
-                    if(btn.innerText.trim() === 'home') btn.classList.add('active');
+                    if(btn.innerText.trim().toLowerCase() === 'home') btn.classList.add('active');
                     else btn.classList.remove('active');
                 });
             })
-            .catch(err => alert("Database transmission error: " + err.message));
+            .catch(err => alert("Cloud pipeline failure: " + err.message));
         }
 
-        // DATABASE CONTROLLER: Dynamic Realtime Layout Feed + Likes System
+        // Realtime Streaming Document Display Pipeline
         db.collection("layouts").orderBy("createdAt", "desc").onSnapshot(snapshot => {
             const container = document.getElementById('layouts-container');
-            container.innerHTML = ""; // Wipe loading texts safely
+            container.innerHTML = "";
 
             if(snapshot.empty) {
-                container.innerHTML = `<p style="color: #949ba4; margin-top: 20px;">No custom layouts posted yet. Be the first!</p>`;
+                container.innerHTML = `<p style="color: #9d8eb5; margin-top: 40px; text-align: center;">No blueprints published on this cluster yet. Be the first!</p>`;
                 return;
             }
 
             snapshot.forEach(doc => {
                 const data = doc.data();
                 const docId = doc.id;
-                const creatorName = data.creator ? data.creator.split('@')[0] : "Anonymous";
+                const authorSignature = data.creator ? data.creator.split('@')[0] : "AnonUser";
 
                 const cardHTML = `
                     <div class="layout-card">
                         <h3>${data.title}</h3>
-                        <p style="font-size: 0.9rem; color: #949ba4; margin-top: 4px;">Submitted by: ${creatorName}</p>
+                        <p style="font-size: 0.85rem; color: #7c3aed; margin-top: 4px; font-weight: 600;">By user: ${authorSignature}</p>
                         
                         <div class="layout-preview" id="id-${docId}">${data.channels}</div>
 
-                        <div style="display: flex; gap: 10px; align-items: center;">
-                            <button class="copy-btn" onclick="copyLayout('id-${docId}')">Copy Layout</button>
+                        <div style="display: flex; gap: 12px; align-items: center;">
+                            <button class="copy-btn" onclick="copyLayout('id-${docId}')">Copy Text</button>
                             <button class="vote-btn" onclick="handleVote('${docId}', 'likes')">👍 ${data.likes || 0}</button>
                             <button class="vote-btn" onclick="handleVote('${docId}', 'dislikes')">👎 ${data.dislikes || 0}</button>
                         </div>
@@ -430,10 +485,10 @@
             });
         });
 
-        // DATABASE CONTROLLER: Voting Logic Processing
+        // Atomic Transaction Data Voting Handler
         function handleVote(docId, type) {
             if (!currentUser) {
-                return alert("You must be logged in to vote on layouts!");
+                return alert("Voting tracking nodes require profile authentication.");
             }
 
             const docRef = db.collection("layouts").doc(docId);
@@ -483,7 +538,7 @@
                     });
                 });
             })
-            .catch(err => console.error("Vote failure transactional event: ", err));
+            .catch(err => console.error("Pipeline vote rollback encounter: ", err));
         }
     </script>
 </body>
