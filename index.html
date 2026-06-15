@@ -18,7 +18,7 @@
         }
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #09070f 0%, #120c1f 50%, #030206 100%);
+            background: linear-gradient(135deg, #05020a 0%, #0c061a 50%, #020104 100%);
             color: #e2dbf0;
             display: flex;
             height: 100vh;
@@ -28,9 +28,9 @@
         /* LIQUID LEFT SIDEBAR */
         .liquid-sidebar {
             width: 260px;
-            background: rgba(15, 10, 25, 0.7);
-            backdrop-filter: blur(12px);
-            border-right: 1px solid rgba(138, 43, 226, 0.2);
+            background: rgba(10, 5, 20, 0.75);
+            backdrop-filter: blur(16px);
+            border-right: 1px solid rgba(147, 51, 234, 0.25);
             padding: 30px 20px;
             display: flex;
             flex-direction: column;
@@ -45,7 +45,7 @@
             font-size: 1.4rem;
             letter-spacing: 1px;
             text-transform: uppercase;
-            background: linear-gradient(45deg, #a855f7, #ec4899);
+            background: linear-gradient(45deg, #c084fc, #6366f1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             padding-bottom: 15px;
@@ -61,51 +61,48 @@
 
         /* Liquid Sidebar Menu Buttons */
         .tab-btn {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(168, 85, 247, 0.1);
-            color: #b3a7c9;
+            color: #a79bbd;
             padding: 14px 20px;
             font-size: 0.95rem;
-            /* Liquid/fluid asymmetric borders */
-            border-radius: 16px 30px 20px 35px;
+            /* Asymmetric fluid layout curves */
+            border-radius: 16px 35px 20px 30px;
             cursor: pointer;
             font-weight: 600;
             text-align: left;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
         }
 
-        /* Hover Color Effect for Sidebar Items */
+        /* Liquid Sidebar Hover Color Effect */
         .tab-btn:hover {
             color: #ffffff;
-            background: linear-gradient(135deg, rgba(147, 51, 234, 0.3), rgba(0, 0, 0, 0.6));
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.25), rgba(0, 0, 0, 0.7));
             border-color: rgba(168, 85, 247, 0.6);
-            box-shadow: 0 4px 15px rgba(147, 51, 234, 0.2);
-            /* Smoothly shifts shape on hover like fluid */
-            border-radius: 30px 15px 30px 15px;
-            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(147, 51, 234, 0.3);
+            /* Morphing fluid shape on hover */
+            border-radius: 35px 15px 35px 15px;
+            transform: translateX(6px);
         }
 
         .tab-btn.active {
-            background: linear-gradient(135deg, #6366f1, #a855f7);
+            background: linear-gradient(135deg, #7c3aed, #4f46e5);
             color: #ffffff;
             border-color: transparent;
-            box-shadow: 0 8px 20px rgba(168, 85, 247, 0.4);
-            border-radius: 20px 20px 20px 20px;
+            box-shadow: 0 8px 20px rgba(124, 58, 237, 0.4);
+            border-radius: 20px;
         }
 
-        /* MAIN CONTENT CONTAINER */
+        /* MAIN CONTENT AREA */
         .content-body {
             padding: 40px;
             flex-grow: 1;
             overflow-y: auto;
-            background: transparent;
         }
 
         .tab-content {
             display: none;
-            max-width: 900px;
+            max-width: 850px;
             margin: 0 auto;
         }
 
@@ -115,7 +112,7 @@
         }
 
         @keyframes fluidFade {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -124,59 +121,55 @@
             font-size: 2rem;
             font-weight: 700;
             margin-bottom: 8px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
         p {
             color: #9d8eb5;
-            font-size: 1rem;
         }
 
-        /* MODERN GRADIENT LAYOUT CARDS */
+        /* MODERN GRADIENT & HOVER TEMPLATE CARDS */
         .layout-card {
-            background: linear-gradient(135deg, #140f24 0%, #07040d 100%);
-            border: 2px solid rgba(147, 51, 234, 0.2);
+            background: linear-gradient(135deg, #0f0a1c 0%, #05030a 100%);
+            border: 2px solid rgba(147, 51, 234, 0.15);
             border-radius: 20px;
             padding: 25px;
             margin-top: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
         }
 
-        /* Hover Effect for Template Cards */
+        /* Template Hover Style */
         .layout-card:hover {
-            border-color: rgba(168, 85, 247, 0.8);
-            transform: translateY(-5px);
-            background: linear-gradient(135deg, #1c1433 0%, #0c0717 100%);
+            border-color: rgba(168, 85, 247, 0.7);
+            transform: translateY(-4px);
+            background: linear-gradient(135deg, #160e29 0%, #090514 100%);
             box-shadow: 0 15px 35px rgba(147, 51, 234, 0.25), 0 0 20px rgba(168, 85, 247, 0.1);
         }
 
         .layout-card h3 {
             color: #ffffff;
             font-size: 1.3rem;
-            margin-bottom: 4px;
         }
 
-        /* Code/Channels window */
+        /* Channels Display Window */
         .layout-preview {
-            background-color: #090612; 
+            background-color: #050308; 
             padding: 16px;
             border-radius: 12px;
             font-family: 'Consolas', monospace;
             white-space: pre-wrap; 
-            color: #a78bfa; 
+            color: #c084fc; 
             margin: 20px 0;
-            border-left: 4px solid #c084fc;
+            border-left: 4px solid #a855f7;
             box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);
         }
 
-        /* BUTTONS STYLING */
+        /* ACTION BUTTONS */
         .copy-btn {
             background: linear-gradient(45deg, #7c3aed, #4f46e5);
             color: #ffffff;
             border: none;
-            padding: 12px 20px;
+            padding: 12px 22px;
             font-size: 0.95rem;
             font-weight: 700;
             border-radius: 12px;
@@ -192,8 +185,8 @@
         }
 
         .vote-btn {
-            background-color: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.08);
+            background-color: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             color: #b3a7c9;
             padding: 11px 16px;
             border-radius: 12px;
@@ -208,11 +201,11 @@
             color: #ffffff;
         }
 
-        /* Input Controls Forms */
+        /* Form Text Inputs */
         input[type="text"], input[type="email"], input[type="password"], textarea {
             width: 100%;
             max-width: 550px;
-            background-color: #090612;
+            background-color: #050308;
             border: 1px solid rgba(168, 85, 247, 0.3);
             padding: 12px 16px;
             border-radius: 12px;
@@ -229,10 +222,9 @@
         label {
             font-weight: 600;
             color: #c084fc;
-            font-size: 0.95rem;
         }
 
-        /* MOBILE RESPONSIVE ADAPTATION */
+        /* MOBILE SIDEBAR WRAPPING */
         @media (max-width: 768px) {
             body {
                 flex-direction: column;
@@ -242,7 +234,7 @@
                 height: auto;
                 padding: 15px;
                 border-right: none;
-                border-bottom: 1px solid rgba(138, 43, 226, 0.2);
+                border-bottom: 1px solid rgba(147, 51, 234, 0.2);
                 gap: 15px;
             }
             .navigation-menu {
@@ -298,7 +290,7 @@
                 <label>Layout Title</label><br>
                 <input type="text" id="form-title" placeholder="e.g., Synthwave Retro Core Arcade" required><br><br>
                 
-                <label>Channels Matrix Representation</label><br>
+                <label>Channels List</label><br>
                 <textarea rows="7" id="form-channels" placeholder="💎 │ information&#10;📢 │ announcements&#10;💬 │ general-chat" required></textarea><br><br>
                 
                 <button type="submit" class="copy-btn" id="submit-post-btn">Publish Layout</button>
