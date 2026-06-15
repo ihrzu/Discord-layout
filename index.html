@@ -245,6 +245,15 @@
         }
         label { font-weight: 600; color: #c084fc; }
 
+        .profile-card {
+            background: linear-gradient(135deg, #120b24 0%, #06040a 100%);
+            border: 1px solid rgba(168, 85, 247, 0.25);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
         @media (max-width: 768px) {
             body { flex-direction: column; }
             .liquid-sidebar { width: 100%; height: auto; padding: 15px; border-right: none; border-bottom: 1px solid rgba(147, 51, 234, 0.2); gap: 15px; }
@@ -264,7 +273,7 @@
             <button class="tab-btn" onclick="switchTab(event, 'announcements-tab')">Announcements</button>
             <button class="tab-btn" onclick="switchTab(event, 'submit-tab')">Submit Layout</button>
             <button class="tab-btn" onclick="switchTab(event, 'donation-tab')">Support Us</button>
-            <button class="tab-btn" onclick="switchTab(event, 'login-tab')" id="nav-auth-btn">Login</button>
+            <button class="tab-btn" onclick="switchTab(event, 'login-tab')" id="nav-auth-btn">Profile Connection</button>
         </div>
     </div>
 
@@ -297,7 +306,7 @@
             <p style="margin-bottom: 20px;">Official structural releases and development updates.</p>
             
             <div id="admin-announcement-form-box" style="display: none; background: rgba(168,85,247,0.05); border: 1px dashed #a855f7; padding: 20px; border-radius: 16px; margin-bottom: 30px;">
-                <h4 style="color: #ffffff; margin-bottom: 10px;">🛡️ Dashboard Broadcast Access</h4>
+                <h4 style="color: #ffffff; margin-bottom: 10px;">🛡         Dashboard Broadcast Access</h4>
                 <form onsubmit="handleAnnouncementSubmit(event)">
                     <label>Broadcast Title</label><br>
                     <input type="text" id="ann-title" placeholder="System logs..." required><br><br>
@@ -341,8 +350,8 @@
         </div>
 
         <div id="login-tab" class="tab-content">
-            <h2 id="auth-title">Account Portal</h2>
-            <p style="margin-bottom: 25px; color: #9d8eb5;" id="auth-status-msg">Authenticate credentials to interact with community records.</p>
+            <h2 id="auth-title">Account Gateway</h2>
+            <p style="margin-bottom: 25px; color: #9d8eb5;" id="auth-status-msg">Manage or sync verification configurations.</p>
             
             <div id="auth-form-container" style="background: linear-gradient(135deg, #140f24 0%, #07040d 100%); border: 1px solid rgba(168, 85, 247, 0.2); padding: 30px; border-radius: 20px; max-width: 500px;">
                 <label>Email Address</label><br>
@@ -355,16 +364,38 @@
                     <button class="copy-btn" style="background: rgba(255,255,255,0.05); box-shadow: none; border: 1px solid rgba(255,255,255,0.1);" onclick="handleRegister()">Register Account</button>
                 </div>
             </div>
+
             <div id="logout-container" style="display: none;">
-                 <button class="copy-btn" style="background: linear-gradient(45deg, #ef4444, #dc2626); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);" onclick="handleLogout()">Disconnect Session</button>
+                <div class="profile-card">
+                    <h3 style="color:#ffffff; margin-bottom: 5px;">User Node Parameters</h3>
+                    <p style="font-size:0.9rem; margin-bottom:20px;">Stored unique node tracking email: <span id="profile-current-email" style="color:#c084fc; font-weight:700;">---</span></p>
+                    
+                    <label>Change Display Username</label><br>
+                    <p style="font-size:0.8rem; color:#a79bbd; margin-top:2px;">Replaces default handle mask across listings</p>
+                    <input type="text" id="profile-display-name" placeholder="Enter custom username..."><br>
+                    <button class="copy-btn" style="margin-top:10px; padding:8px 16px; font-size:0.85rem;" onclick="updateProfileUsername()">Update Username</button>
+                    
+                    <div style="margin: 25px 0; border-top:1px solid rgba(255,255,255,0.05);"></div>
+
+                    <label>Update Account Email</label><br>
+                    <input type="email" id="profile-new-email" placeholder="new-email@example.com"><br>
+                    <button class="copy-btn" style="margin-top:10px; padding:8px 16px; font-size:0.85rem; background:linear-gradient(45deg, #4f46e5, #2563eb);" onclick="updateAccountEmail()">Update Authentication Email</button>
+
+                    <div style="margin: 25px 0; border-top:1px solid rgba(255,255,255,0.05);"></div>
+
+                    <label>Update Password String</label><br>
+                    <input type="password" id="profile-new-password" placeholder="••••••••"><br>
+                    <button class="copy-btn" style="margin-top:10px; padding:8px 16px; font-size:0.85rem; background:linear-gradient(45deg, #16a34a, #059669);" onclick="updateAccountPassword()">Modify Passkey String</button>
+                </div>
+
+                <button class="copy-btn" style="background: linear-gradient(45deg, #ef4444, #dc2626); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); margin-top:25px;" onclick="handleLogout()">Disconnect Session</button>
             </div>
         </div>
 
     </div>
 
     <script>
-        // INPUT YOUR MANAGEMENT ACCOUNTS LOWERCASE
-        const ADMIN_EMAILS = ["your-email@example.com", "amarionn0329@gmail.com"]; 
+        const ADMIN_EMAILS = ["userf3284@gmail.com", "amarionn0329@gmail.com"]; 
 
         const firebaseConfig = {
           apiKey: "AIzaSyCdKjdJ2f8ET0HUCUAq0bu9zN9Xn9vLViU",
@@ -381,17 +412,32 @@
         const db = firebase.firestore();
 
         let currentUser = null;
+        let globalUserNamesMap = {}; // Key-Value mapping engine database cache
+
+        // Preload Usernames List to prevent slow fetch loops
+        db.collection("users").onSnapshot(snapshot => {
+            globalUserNamesMap = {};
+            snapshot.forEach(doc => {
+                globalUserNamesMap[doc.id.toLowerCase()] = doc.data().username;
+            });
+            refreshDataStreams(); // Redraw screens with fresh custom profiles
+        });
 
         auth.onAuthStateChanged(user => {
             if (user) {
                 currentUser = user;
-                const cleanDisplayUsername = user.email.split('@')[0];
                 document.getElementById('nav-auth-btn').innerText = 'My Account';
-                document.getElementById('auth-title').innerText = `Welcome, ${cleanDisplayUsername}!`;
-                document.getElementById('auth-status-msg').innerText = `Session verified connection node secure.`;
+                document.getElementById('auth-title').innerText = `Profile Management Dashboard`;
+                document.getElementById('auth-status-msg').innerText = `Adjust system attributes or update account validation metrics.`;
                 document.getElementById('submit-status-msg').innerText = 'Authorized to post layout to public registers.';
+                document.getElementById('profile-current-email').innerText = user.email;
+                
                 document.getElementById('auth-form-container').style.display = 'none';
                 document.getElementById('logout-container').style.display = 'block';
+
+                // Display custom username if it exists inside the settings input box placeholder
+                const cachedUsername = globalUserNamesMap[user.email.toLowerCase()];
+                document.getElementById('profile-display-name').value = cachedUsername || "";
 
                 if(ADMIN_EMAILS.includes(user.email.toLowerCase())) {
                     document.getElementById('admin-announcement-form-box').style.display = 'block';
@@ -426,22 +472,63 @@
         function handleRegister() {
             const email = document.getElementById('auth-email').value;
             const password = document.getElementById('auth-password').value;
-            if(!email || !password) return alert("Fill out parameters entirely.");
-            auth.createUserWithEmailAndPassword(email, password).then(() => alert("Account synchronized.")).catch(err => alert(err.message));
+            if(!email || !password) return alert("Fill out fields entirely.");
+            auth.createUserWithEmailAndPassword(email, password).then(() => alert("Profile configured.")).catch(err => alert(err.message));
         }
 
         function handleLogin() {
             const email = document.getElementById('auth-email').value;
             const password = document.getElementById('auth-password').value;
-            if(!email || !password) return alert("Fill out parameters entirely.");
-            auth.signInWithEmailAndPassword(email, password).then(() => alert("System access approved.")).catch(err => alert(err.message));
+            if(!email || !password) return alert("Fill out fields entirely.");
+            auth.signInWithEmailAndPassword(email, password).then(() => alert("Access granted.")).catch(err => alert(err.message));
         }
 
-        function handleLogout() { auth.signOut().then(() => alert("Session destroyed.")); }
+        function handleLogout() { auth.signOut().then(() => alert("Disconnected safely.")); }
+
+        /* USER PROFILE INTERACTION METHODS */
+        function updateProfileUsername() {
+            if(!currentUser) return;
+            const newName = document.getElementById('profile-display-name').value.trim();
+            if(!newName) return alert("Username string value invalid.");
+
+            db.collection("users").doc(currentUser.email.toLowerCase()).set({
+                username: newName,
+                updatedAt: new Date()
+            }, { merge: true })
+            .then(() => alert("Username attributes synced successfully across database layers!"))
+            .catch(err => alert("Firestore indexing error: " + err.message));
+        }
+
+        function updateAccountEmail() {
+            if(!currentUser) return;
+            const newEmail = document.getElementById('profile-new-email').value.trim();
+            if(!newEmail) return alert("Please type a valid email address.");
+
+            currentUser.updateEmail(newEmail).then(() => {
+                alert("Security authentication email updated! Re-mapping identity index configurations...");
+                // Migrate profile metadata index
+                const oldEmail = currentUser.email;
+                const activeCustomName = globalUserNamesMap[oldEmail.toLowerCase()] || oldEmail.split('@')[0];
+                
+                db.collection("users").doc(newEmail.toLowerCase()).set({ username: activeCustomName })
+                    .then(() => { document.getElementById('profile-new-email').value = ""; });
+            }).catch(err => alert("Re-authentication required. Log out and back in before shifting core validation chains: " + err.message));
+        }
+
+        function updateAccountPassword() {
+            if(!currentUser) return;
+            const newPassword = document.getElementById('profile-new-password').value;
+            if(!newPassword || newPassword.length < 6) return alert("Password must contain at least 6 parameters.");
+
+            currentUser.updatePassword(newPassword).then(() => {
+                alert("Passkey identity record altered successfully!");
+                document.getElementById('profile-new-password').value = "";
+            }).catch(err => alert("Security chain rejected transaction. Re-authenticate account session and retry: " + err.message));
+        }
 
         function handleLayoutSubmit(event) {
             event.preventDefault();
-            if (!currentUser) return alert("Action blocked: missing identification profile.");
+            if (!currentUser) return alert("Missing identification profiles.");
             
             const isUploaderAdmin = ADMIN_EMAILS.includes(currentUser.email.toLowerCase());
 
@@ -449,26 +536,26 @@
                 title: document.getElementById('form-title').value,
                 channels: document.getElementById('form-channels').value,
                 creator: currentUser.email,
-                isAdminPost: isUploaderAdmin, // Identity distinction criteria key flag
+                isAdminPost: isUploaderAdmin,
                 likes: 0, dislikes: 0, likedBy: [], dislikedBy: [],
                 createdAt: new Date()
             }).then(() => {
-                alert("Layout successfully updated to data ledger arrays!");
+                alert("Layout matrix uploaded safely!");
                 document.getElementById('submission-form').reset();
                 switchTab(null, isUploaderAdmin ? 'main-posts' : 'community-posts');
-            }).catch(err => alert("Cloud operational delay: " + err.message));
+            }).catch(err => alert("Pipeline delay: " + err.message));
         }
 
         function handleAnnouncementSubmit(event) {
             event.preventDefault();
-            if (!currentUser || !ADMIN_EMAILS.includes(currentUser.email.toLowerCase())) return alert("Clearance mismatch.");
+            if (!currentUser || !ADMIN_EMAILS.includes(currentUser.email.toLowerCase())) return alert("Access denied.");
 
             db.collection("announcements").add({
                 title: document.getElementById('ann-title').value,
                 body: document.getElementById('ann-body').value,
                 date: new Date()
             }).then(() => {
-                alert("Announcement system pipeline executed safely!");
+                alert("Announcement broadcast active!");
                 document.getElementById('ann-title').value = "";
                 document.getElementById('ann-body').value = "";
             }).catch(err => alert("Transmission error: " + err.message));
@@ -476,22 +563,24 @@
 
         function deletePost(collectionName, docId) {
             if (!currentUser || !ADMIN_EMAILS.includes(currentUser.email.toLowerCase())) return alert("Clearance lacking.");
-            if (confirm("Execute script command context to drop document data file permanently?")) {
+            if (confirm("Permanently wipe record from cloud files?")) {
                 db.collection(collectionName).doc(docId).delete()
-                    .then(() => alert("Document dropped cleanly."))
+                    .then(() => alert("Dropped document."))
                     .catch(err => alert("Operation failure: " + err.message));
             }
         }
 
         function renderCardHTML(docId, data, suffix, isAdmin) {
-            const maskedUsername = data.creator ? data.creator.split('@')[0] : "Anonymous";
+            const rawCreator = data.creator ? data.creator.toLowerCase() : "";
+            // Look up custom username in map cache, or default back to parsed mask handle string
+            const safeUsername = globalUserNamesMap[rawCreator] || (data.creator ? data.creator.split('@')[0] : "AnonymousUser");
             const uniquePreviewId = `${suffix}-${docId}`;
             const glowClass = suffix.includes('top') ? 'top-glow-card' : '';
             
             return `
                 <div class="layout-card ${glowClass}">
                     <h3>${suffix.includes('top') ? '🏆 ' : ''}${data.title}</h3>
-                    <p style="font-size:0.85rem; color:#a855f7; margin-top:4px; font-weight:600;">Posted by username: <span style="color:#ffffff;">${maskedUsername}</span></p>
+                    <p style="font-size:0.85rem; color:#a855f7; margin-top:4px; font-weight:600;">Creator Handle: <span style="color:#ffffff;">${safeUsername}</span></p>
                     <div class="layout-preview" id="${uniquePreviewId}">${data.channels}</div>
                     <div style="display:flex; gap:12px; align-items:center;">
                         <button class="copy-btn" onclick="copyLayout('${uniquePreviewId}')">Copy Text</button>
@@ -505,16 +594,13 @@
         function refreshDataStreams() {
             const userIsModAdmin = currentUser && ADMIN_EMAILS.includes(currentUser.email.toLowerCase());
 
-            // 1. LIVE REALTIME HOOK UPON ALL PLATFORM BLUEPRINTS
             db.collection("layouts").orderBy("createdAt", "desc").onSnapshot(snapshot => {
                 const mainFeed = document.getElementById('main-feed-container');
                 const commFeed = document.getElementById('comm-feed-container');
+                if(!mainFeed || !commFeed) return;
                 
-                mainFeed.innerHTML = "";
-                commFeed.innerHTML = "";
-
-                let mainCount = 0;
-                let commCount = 0;
+                mainFeed.innerHTML = ""; commFeed.innerHTML = "";
+                let mainCount = 0; let commCount = 0;
 
                 snapshot.forEach(doc => {
                     const data = doc.data();
@@ -526,35 +612,31 @@
                         commCount++;
                     }
                 });
-
                 if(mainCount === 0) mainFeed.innerHTML = `<p style="color:#9d8eb5; font-size:0.9rem; padding:10px;">No official blueprints loaded yet.</p>`;
                 if(commCount === 0) commFeed.innerHTML = `<p style="color:#9d8eb5; font-size:0.9rem; padding:10px;">No community layouts found here yet.</p>`;
             });
 
-            // 2. MAIN LEADERBOARD SYNC (LIMIT 10)
             db.collection("layouts").where("isAdminPost", "==", true).orderBy("likes", "desc").limit(10).onSnapshot(snap => {
                 const container = document.getElementById('main-top-container');
-                container.innerHTML = "";
+                if(!container) return; container.innerHTML = "";
                 if(snap.empty) { container.innerHTML = `<p style="color:#9d8eb5; font-size:0.9rem; padding:10px;">Leaderboard currently empty.</p>`; return; }
                 snap.forEach(doc => { container.innerHTML += renderCardHTML(doc.id, doc.data(), 'main-top', userIsModAdmin); });
             });
 
-            // 3. COMMUNITY LEADERBOARD SYNC (LIMIT 10)
             db.collection("layouts").where("isAdminPost", "!=", true).orderBy("isAdminPost").orderBy("likes", "desc").limit(10).onSnapshot(snap => {
                 const container = document.getElementById('comm-top-container');
-                container.innerHTML = "";
+                if(!container) return; container.innerHTML = "";
                 if(snap.empty) { container.innerHTML = `<p style="color:#9d8eb5; font-size:0.9rem; padding:10px;">Leaderboard empty.</p>`; return; }
                 snap.forEach(doc => { container.innerHTML += renderCardHTML(doc.id, doc.data(), 'comm-top', userIsModAdmin); });
             });
         }
 
-        // ANNOUNCEMENT DATA MONITOR PIPELINE SYSTEM
         db.collection("announcements").orderBy("date", "desc").onSnapshot(snapshot => {
             const container = document.getElementById('announcements-feed-container');
-            container.innerHTML = "";
+            if(!container) return; container.innerHTML = "";
             const isAdmin = currentUser && ADMIN_EMAILS.includes(currentUser.email.toLowerCase());
             
-            if(snapshot.empty) { container.innerHTML = `<p style="color:#9d8eb5; text-align:center; padding:20px;">No announcement updates located inside cache fields.</p>`; return; }
+            if(snapshot.empty) { container.innerHTML = `<p style="color:#9d8eb5; text-align:center; padding:20px;">No announcement updates posted yet.</p>`; return; }
             snapshot.forEach(doc => {
                 const data = doc.data();
                 container.innerHTML += `
@@ -569,7 +651,6 @@
             });
         });
 
-        // TRANSACTIONAL MANAGEMENT SYSTEM FOR VOTES
         function handleVote(docId, type) {
             if (!currentUser) return alert("You must sign in to upvote layouts.");
             const docRef = db.collection("layouts").doc(docId);
@@ -577,10 +658,8 @@
                 return transaction.get(docRef).then(doc => {
                     if (!doc.exists) return;
                     let data = doc.data();
-                    let likedBy = data.likedBy || [];
-                    let dislikedBy = data.dislikedBy || [];
-                    let likes = data.likes || 0;
-                    let dislikes = data.dislikes || 0;
+                    let likedBy = data.likedBy || []; let dislikedBy = data.dislikedBy || [];
+                    let likes = data.likes || 0; let dislikes = data.dislikes || 0;
                     const userId = currentUser.uid;
 
                     if (type === 'likes') {
