@@ -141,6 +141,37 @@
             color: #9d8eb5;
         }
 
+        /* SEARCH CONTAINER INFRASTRUCTURE */
+        .search-wrapper {
+            margin: 20px 0 10px 0;
+            position: relative;
+            max-width: 550px;
+        }
+        .search-bar-input {
+            width: 100%;
+            background: linear-gradient(135deg, #0d081f 0%, #06040a 100%) !important;
+            border: 2px solid rgba(168, 85, 247, 0.4) !important;
+            padding: 14px 20px 14px 45px !important;
+            font-size: 1rem;
+            border-radius: 14px !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(0, 0, 0, 0.8);
+            transition: all 0.3s ease;
+        }
+        .search-bar-input:focus {
+            outline: none;
+            border-color: #c084fc !important;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+        }
+        .search-icon-marker {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-30%);
+            color: #a855f7;
+            font-size: 1.1rem;
+            pointer-events: none;
+        }
+
         /* MODERN GRADIENT TEMPLATE CARDS */
         .layout-card {
             background: linear-gradient(135deg, #0f0a1c 0%, #05030a 100%);
@@ -231,8 +262,8 @@
         }
         .delete-btn:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
 
-        /* Form Controls */
-        input[type="text"], input[type="email"], input[type="password"], textarea {
+        /* Form Controls & Select Elements */
+        input[type="text"], input[type="email"], input[type="password"], textarea, select {
             width: 100%;
             max-width: 550px;
             background-color: #050308;
@@ -242,6 +273,10 @@
             color: white;
             margin-top: 8px;
             font-family: inherit;
+        }
+        select option {
+            background-color: #0c061a;
+            color: white;
         }
         label { font-weight: 600; color: #c084fc; }
 
@@ -271,6 +306,7 @@
             <button class="tab-btn active" onclick="switchTab(event, 'main-posts')">Main Posts</button>
             <button class="tab-btn" onclick="switchTab(event, 'community-posts')">Community Feed</button>
             <button class="tab-btn" onclick="switchTab(event, 'announcements-tab')">Announcements</button>
+            <button class="tab-btn" onclick="switchTab(event, 'ai-tab')">AI Prompt Engineer</button>
             <button class="tab-btn" onclick="switchTab(event, 'submit-tab')">Submit Layout</button>
             <button class="tab-btn" onclick="switchTab(event, 'donation-tab')">Support Us</button>
             <button class="tab-btn" onclick="switchTab(event, 'login-tab')" id="nav-auth-btn">Profile Connection</button>
@@ -283,6 +319,11 @@
             <h2>Official Core Layouts</h2>
             <p>Verified structural master blueprints posted by system managers.</p>
             
+            <div class="search-wrapper">
+                <span class="search-icon-marker">🔍</span>
+                <input type="text" id="main-search-bar" class="search-bar-input" placeholder="Search official layouts or creators..." oninput="refreshDataStreams()">
+            </div>
+            
             <div class="section-divider">🔥 Top 10 Leaderboard</div>
             <div id="main-top-container"><p style="color:#9d8eb5; font-size:0.9rem; padding:10px;">Sorting chart positions...</p></div>
 
@@ -293,6 +334,11 @@
         <div id="community-posts" class="tab-content">
             <h2>Community Templates</h2>
             <p>Explore structural submissions posted across the system cluster.</p>
+            
+            <div class="search-wrapper">
+                <span class="search-icon-marker">🔍</span>
+                <input type="text" id="comm-search-bar" class="search-bar-input" placeholder="Search community layouts or usernames..." oninput="refreshDataStreams()">
+            </div>
             
             <div class="section-divider">🔥 Top 10 Community Picks</div>
             <div id="comm-top-container"><p style="color:#9d8eb5; font-size:0.9rem; padding:10px;">Calculating ranking matrix...</p></div>
@@ -306,7 +352,7 @@
             <p style="margin-bottom: 20px;">Official structural releases and development updates.</p>
             
             <div id="admin-announcement-form-box" style="display: none; background: rgba(168,85,247,0.05); border: 1px dashed #a855f7; padding: 20px; border-radius: 16px; margin-bottom: 30px;">
-                <h4 style="color: #ffffff; margin-bottom: 10px;">🛡         Dashboard Broadcast Access</h4>
+                <h4 style="color: #ffffff; margin-bottom: 10px;">🛡 Dashboard Broadcast Access</h4>
                 <form onsubmit="handleAnnouncementSubmit(event)">
                     <label>Broadcast Title</label><br>
                     <input type="text" id="ann-title" placeholder="System logs..." required><br><br>
@@ -316,6 +362,32 @@
                 </form>
             </div>
             <div id="announcements-feed-container"><p style="color: #9d8eb5; text-align: center;">Opening communication links...</p></div>
+        </div>
+
+        <div id="ai-tab" class="tab-content">
+            <h2>AI Prompt Generator</h2>
+            <p style="margin-bottom: 25px;">Build hyper-optimized context structural instructions to feed any AI system to generate instant layouts.</p>
+            
+            <div style="background: linear-gradient(135deg, #0f0a1c 0%, #05030a 100%); border: 2px solid rgba(147, 51, 234, 0.2); border-radius: 20px; padding: 30px; max-width: 600px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                <label>What type of server are you making?</label><br>
+                <input type="text" id="ai-server-topic" placeholder="e.g., Anime Hangout, Coding Study Lounge, Cyberpunk Clan"><br><br>
+
+                <label>Select Aesthetic Style Vibe</label><br>
+                <select id="ai-style-select">
+                    <option value="🔮 │ Aesthetic Purple Sparkles">🔮 Aesthetic Purple Sparkles</option>
+                    <option value="🥷 │ Minimalist Dark Shadow Noir">🥷 Minimalist Dark Shadow Noir</option>
+                    <option value="🚀 │ Tech Cyber Matrix Synthwave">🚀 Tech Cyber Matrix Synthwave</option>
+                    <option value="🌿 │ Soft Cozy Matcha Botanical">🌿 Soft Cozy Matcha Botanical</option>
+                </select><br><br>
+
+                <button class="copy-btn" onclick="generateAIPrompt()">Generate AI Instruction String</button>
+
+                <div id="ai-result-box" style="display:none; margin-top: 25px;">
+                    <label style="color:#ec4899;">📋 Step 2: Copy & Paste Into ChatGPT/Gemini</label>
+                    <div class="layout-preview" id="ai-prompt-output"></div>
+                    <button class="copy-btn" style="background:linear-gradient(45deg, #ec4899, #7c3aed);" onclick="copyLayout('ai-prompt-output')">Copy Generated Prompt</button>
+                </div>
+            </div>
         </div>
 
         <div id="submit-tab" class="tab-content">
@@ -395,7 +467,7 @@
     </div>
 
     <script>
-        const ADMIN_EMAILS = ["userf3284@gmail.com", "amarionn0329@gmail.com"]; 
+        const ADMIN_EMAILS = ["your-email@example.com", "amarionn0329@gmail.com"]; 
 
         const firebaseConfig = {
           apiKey: "AIzaSyCdKjdJ2f8ET0HUCUAq0bu9zN9Xn9vLViU",
@@ -412,15 +484,16 @@
         const db = firebase.firestore();
 
         let currentUser = null;
-        let globalUserNamesMap = {}; // Key-Value mapping engine database cache
+        let globalUserNamesMap = {};
+        let localSnapshotCache = []; // Internal global structural cache to handle live multi-parameter text search filtering
 
-        // Preload Usernames List to prevent slow fetch loops
+        // Preload Usernames List
         db.collection("users").onSnapshot(snapshot => {
             globalUserNamesMap = {};
             snapshot.forEach(doc => {
                 globalUserNamesMap[doc.id.toLowerCase()] = doc.data().username;
             });
-            refreshDataStreams(); // Redraw screens with fresh custom profiles
+            refreshDataStreams();
         });
 
         auth.onAuthStateChanged(user => {
@@ -435,7 +508,6 @@
                 document.getElementById('auth-form-container').style.display = 'none';
                 document.getElementById('logout-container').style.display = 'block';
 
-                // Display custom username if it exists inside the settings input box placeholder
                 const cachedUsername = globalUserNamesMap[user.email.toLowerCase()];
                 document.getElementById('profile-display-name').value = cachedUsername || "";
 
@@ -469,6 +541,21 @@
             navigator.clipboard.writeText(text).then(() => alert("Copied safely to clipboard!")).catch(() => alert("Error logging stream context"));
         }
 
+        /* AI PROMPT SYSTEM ENGINE */
+        function generateAIPrompt() {
+            const topic = document.getElementById('ai-server-topic').value.trim() || "Gaming and Chill Community";
+            const decoration = document.getElementById('ai-style-select').value;
+            
+            const constructedPrompt = `Act as an expert Discord Server Architect. Design a clean, high-retention Discord channel layout list for a server focused on "${topic}". 
+
+Format the output strictly as a single text block using these design aesthetic borders and symbols for every channel: "${decoration}". 
+
+Ensure it includes standard logical categories (like Information, Welcome, Text Channels, Voice Lounges). Do not include extra conversational text or descriptions, just return the raw text channel list.`;
+
+            document.getElementById('ai-prompt-output').innerText = constructedPrompt;
+            document.getElementById('ai-result-box').style.display = "block";
+        }
+
         function handleRegister() {
             const email = document.getElementById('auth-email').value;
             const password = document.getElementById('auth-password').value;
@@ -485,7 +572,6 @@
 
         function handleLogout() { auth.signOut().then(() => alert("Disconnected safely.")); }
 
-        /* USER PROFILE INTERACTION METHODS */
         function updateProfileUsername() {
             if(!currentUser) return;
             const newName = document.getElementById('profile-display-name').value.trim();
@@ -495,7 +581,7 @@
                 username: newName,
                 updatedAt: new Date()
             }, { merge: true })
-            .then(() => alert("Username attributes synced successfully across database layers!"))
+            .then(() => alert("Username attributes synced successfully!"))
             .catch(err => alert("Firestore indexing error: " + err.message));
         }
 
@@ -505,31 +591,29 @@
             if(!newEmail) return alert("Please type a valid email address.");
 
             currentUser.updateEmail(newEmail).then(() => {
-                alert("Security authentication email updated! Re-mapping identity index configurations...");
-                // Migrate profile metadata index
+                alert("Email updated successfully!");
                 const oldEmail = currentUser.email;
                 const activeCustomName = globalUserNamesMap[oldEmail.toLowerCase()] || oldEmail.split('@')[0];
                 
                 db.collection("users").doc(newEmail.toLowerCase()).set({ username: activeCustomName })
                     .then(() => { document.getElementById('profile-new-email').value = ""; });
-            }).catch(err => alert("Re-authentication required. Log out and back in before shifting core validation chains: " + err.message));
+            }).catch(err => alert("Security check failed: " + err.message));
         }
 
         function updateAccountPassword() {
             if(!currentUser) return;
             const newPassword = document.getElementById('profile-new-password').value;
-            if(!newPassword || newPassword.length < 6) return alert("Password must contain at least 6 parameters.");
+            if(!newPassword || newPassword.length < 6) return alert("Password must contain at least 6 characters.");
 
             currentUser.updatePassword(newPassword).then(() => {
-                alert("Passkey identity record altered successfully!");
+                alert("Password altered successfully!");
                 document.getElementById('profile-new-password').value = "";
-            }).catch(err => alert("Security chain rejected transaction. Re-authenticate account session and retry: " + err.message));
+            }).catch(err => alert("Security check failed: " + err.message));
         }
 
         function handleLayoutSubmit(event) {
             event.preventDefault();
             if (!currentUser) return alert("Missing identification profiles.");
-            
             const isUploaderAdmin = ADMIN_EMAILS.includes(currentUser.email.toLowerCase());
 
             db.collection("layouts").add({
@@ -572,7 +656,6 @@
 
         function renderCardHTML(docId, data, suffix, isAdmin) {
             const rawCreator = data.creator ? data.creator.toLowerCase() : "";
-            // Look up custom username in map cache, or default back to parsed mask handle string
             const safeUsername = globalUserNamesMap[rawCreator] || (data.creator ? data.creator.split('@')[0] : "AnonymousUser");
             const uniquePreviewId = `${suffix}-${docId}`;
             const glowClass = suffix.includes('top') ? 'top-glow-card' : '';
@@ -591,43 +674,83 @@
                 </div>`;
         }
 
+        // BIND PERSISTENT DATABASE STREAM
+        db.collection("layouts").orderBy("createdAt", "desc").onSnapshot(snapshot => {
+            localSnapshotCache = [];
+            snapshot.forEach(doc => {
+                localSnapshotCache.push({ id: doc.id, data: doc.data() });
+            });
+            refreshDataStreams();
+        });
+
         function refreshDataStreams() {
             const userIsModAdmin = currentUser && ADMIN_EMAILS.includes(currentUser.email.toLowerCase());
 
-            db.collection("layouts").orderBy("createdAt", "desc").onSnapshot(snapshot => {
-                const mainFeed = document.getElementById('main-feed-container');
-                const commFeed = document.getElementById('comm-feed-container');
-                if(!mainFeed || !commFeed) return;
-                
-                mainFeed.innerHTML = ""; commFeed.innerHTML = "";
-                let mainCount = 0; let commCount = 0;
+            // Extract values inside search fields safely
+            const mainQuery = document.getElementById('main-search-bar') ? document.getElementById('main-search-bar').value.toLowerCase().trim() : "";
+            const commQuery = document.getElementById('comm-search-bar') ? document.getElementById('comm-search-bar').value.toLowerCase().trim() : "";
 
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    if(data.isAdminPost === true) {
-                        mainFeed.innerHTML += renderCardHTML(doc.id, data, 'main-feed', userIsModAdmin);
+            const mainFeed = document.getElementById('main-feed-container');
+            const commFeed = document.getElementById('comm-feed-container');
+            if(!mainFeed || !commFeed) return;
+            
+            mainFeed.innerHTML = ""; commFeed.innerHTML = "";
+            let mainCount = 0; let commCount = 0;
+
+            // Render matching posts using client search logic engine
+            localSnapshotCache.forEach(item => {
+                const data = item.data;
+                const docId = item.id;
+                const rawCreator = data.creator ? data.creator.toLowerCase() : "";
+                const safeUsername = (globalUserNamesMap[rawCreator] || (data.creator ? data.creator.split('@')[0] : "anonymoususer")).toLowerCase();
+                const titleStr = data.title ? data.title.toLowerCase() : "";
+
+                if(data.isAdminPost === true) {
+                    // Match query filtering bounds
+                    if(mainQuery === "" || titleStr.includes(mainQuery) || safeUsername.includes(mainQuery)) {
+                        mainFeed.innerHTML += renderCardHTML(docId, data, 'main-feed', userIsModAdmin);
                         mainCount++;
-                    } else {
-                        commFeed.innerHTML += renderCardHTML(doc.id, data, 'comm-feed', userIsModAdmin);
+                    }
+                } else {
+                    if(commQuery === "" || titleStr.includes(commQuery) || safeUsername.includes(commQuery)) {
+                        commFeed.innerHTML += renderCardHTML(docId, data, 'comm-feed', userIsModAdmin);
                         commCount++;
                     }
-                });
-                if(mainCount === 0) mainFeed.innerHTML = `<p style="color:#9d8eb5; font-size:0.9rem; padding:10px;">No official blueprints loaded yet.</p>`;
-                if(commCount === 0) commFeed.innerHTML = `<p style="color:#9d8eb5; font-size:0.9rem; padding:10px;">No community layouts found here yet.</p>`;
+                }
             });
 
-            db.collection("layouts").where("isAdminPost", "==", true).orderBy("likes", "desc").limit(10).onSnapshot(snap => {
+            if(mainCount === 0) mainFeed.innerHTML = `<p style="color:#9d8eb5; font-size:0.9rem; padding:10px;">No matching official blueprints located.</p>`;
+            if(commCount === 0) commFeed.innerHTML = `<p style="color:#9d8eb5; font-size:0.9rem; padding:10px;">No matching community layouts located.</p>`;
+
+            // Update top leaderboard references using standard query matching bounds
+            db.collection("layouts").where("isAdminPost", "==", true).orderBy("likes", "desc").limit(10).get().then(snap => {
                 const container = document.getElementById('main-top-container');
                 if(!container) return; container.innerHTML = "";
-                if(snap.empty) { container.innerHTML = `<p style="color:#9d8eb5; font-size:0.9rem; padding:10px;">Leaderboard currently empty.</p>`; return; }
-                snap.forEach(doc => { container.innerHTML += renderCardHTML(doc.id, doc.data(), 'main-top', userIsModAdmin); });
+                let count = 0;
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    const safeUsername = (globalUserNamesMap[data.creator.toLowerCase()] || data.creator.split('@')[0]).toLowerCase();
+                    if(mainQuery === "" || data.title.toLowerCase().includes(mainQuery) || safeUsername.includes(mainQuery)) {
+                        container.innerHTML += renderCardHTML(doc.id, data, 'main-top', userIsModAdmin);
+                        count++;
+                    }
+                });
+                if(count === 0) container.innerHTML = `<p style="color:#9d8eb5; font-size:0.9rem; padding:10px;">Leaderboard empty or matching query bounds zeroed.</p>`;
             });
 
-            db.collection("layouts").where("isAdminPost", "!=", true).orderBy("isAdminPost").orderBy("likes", "desc").limit(10).onSnapshot(snap => {
+            db.collection("layouts").where("isAdminPost", "!=", true).orderBy("isAdminPost").orderBy("likes", "desc").limit(10).get().then(snap => {
                 const container = document.getElementById('comm-top-container');
                 if(!container) return; container.innerHTML = "";
-                if(snap.empty) { container.innerHTML = `<p style="color:#9d8eb5; font-size:0.9rem; padding:10px;">Leaderboard empty.</p>`; return; }
-                snap.forEach(doc => { container.innerHTML += renderCardHTML(doc.id, doc.data(), 'comm-top', userIsModAdmin); });
+                let count = 0;
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    const safeUsername = (globalUserNamesMap[data.creator.toLowerCase()] || data.creator.split('@')[0]).toLowerCase();
+                    if(commQuery === "" || data.title.toLowerCase().includes(commQuery) || safeUsername.includes(commQuery)) {
+                        container.innerHTML += renderCardHTML(doc.id, data, 'comm-top', userIsModAdmin);
+                        count++;
+                    }
+                });
+                if(count === 0) container.innerHTML = `<p style="color:#9d8eb5; font-size:0.9rem; padding:10px;">Leaderboard empty or matching query bounds zeroed.</p>`;
             });
         }
 
